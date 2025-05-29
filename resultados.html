@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Torneo Vóley Hierba CV Fuenlabrada</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <a href="index.html#inicio"> <img src="logo-fuenlabrada.jpg" alt="Logo CV Fuenlabrada" class="logo">
+            </a>
+            <h1>Club Voleibol Fuenlabrada</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html#inicio">Inicio</a></li>
+                    <li><a href="index.html#torneo">El Torneo</a></li>
+                    <li><a href="index.html#categorias">Categorías</a></li>
+                    <li><a href="resultados.html">Resultados</a></li>
+                    <li><a href="index.html#inscripcion">Inscripción</a></li>
+                    <li><a href="index.html#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="resultados" class="info-section">
+            <div class="container">
+                <h3>Resultados y Calendario por Categoría</h3>
+                <p>Selecciona una categoría para ver sus grupos y enfrentamientos.</p>
+
+                <div class="category-selector">
+                    <label for="selectCategory">Mostrar resultados para:</label>
+                    <select id="selectCategory">
+                        <option value="">-- Selecciona una categoría --</option>
+                        <option value="senior">Senior 3x3 Mixto</option>
+                        <option value="juvenil">Juvenil 3x3 Mixto</option>
+                        <option value="cadete">Cadete 4x4 Mixto</option>
+                        <option value="infantil">Infantil 4x4 Mixto</option>
+                    </select>
+                </div>
+
+                <div id="results-display-area" class="category-results">
+                    <p class="placeholder-text">Selecciona una categoría en el menú superior para ver sus detalles.</p>
+                </div>
+
+                <div id="group-detail-area"> <button id="backToGroups" class="btn back-to-groups-btn">← Volver a Grupos</button>
+                    <h5 id="current-group-title"></h5>
+
+                    <div id="classification-area" class="classification-table-container">
+                        </div>
+
+                    <div id="schedule-list-container" class="schedule-list-container">
+                        </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Club Voleibol Fuenlabrada. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="resultados.js"></script>
+</body>
+</html>
