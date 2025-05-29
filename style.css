@@ -633,6 +633,13 @@ footer {
     font-weight: bold;
 }
 
+/* NUEVA CLASE PARA EL RESTO EN ROJO */
+.pos-red {
+    background-color: #ffcccc; /* Un rojo claro para el fondo */
+    color: #cc0000; /* Un rojo más oscuro para el texto */
+    font-weight: bold;
+}
+
 
 /* Responsive Design */
 @media (max-width: 992px) {

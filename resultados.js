@@ -4,300 +4,267 @@ document.addEventListener('DOMContentLoaded', function() {
         'senior': {
             name: 'Senior 3x3 Mixto',
             numGroups: 8,
-            teamsPerGroup: 6,
-            pointsPerWin: 2, // Ejemplo de puntos por victoria
-            rankingColors: true // Para aplicar los colores de medalla
+            teamsPerGroup: 6
         },
         'juvenil': {
             name: 'Juvenil 3x3 Mixto',
             numGroups: 4,
-            teamsPerGroup: 6,
-            pointsPerWin: 2,
-            rankingColors: false
+            teamsPerGroup: 6
         },
         'cadete': {
             name: 'Cadete 4x4 Mixto',
             numGroups: 2,
-            teamsPerGroup: 8,
-            pointsPerWin: 2,
-            rankingColors: false
+            teamsPerGroup: 8
         },
         'infantil': {
             name: 'Infantil 4x4 Mixto',
             numGroups: 2,
-            teamsPerGroup: 8,
-            pointsPerWin: 2,
-            rankingColors: false
+            teamsPerGroup: 8
         }
     };
 
-    // --- Función para Generar Enfrentamientos de Round Robin ---
-    function generateRoundRobinSchedule(teamsArray) {
-        if (teamsArray.length < 2) return [];
+    // --- Función para Generar Enfrentamientos de Round Robin (Igual que antes) ---
+    function generateRoundRobinSchedule(numTeams) {
+        if (numTeams < 2) return [];
 
-        let teams = [...teamsArray]; // Copia el array para no modificar el original
+        const teams = Array.from({ length: numTeams }, (_, i) => `Equipo ${i + 1}`);
         const schedule = [];
 
-        const isOdd = teams.length % 2 !== 0;
+        const isOdd = numTeams % 2 !== 0;
         if (isOdd) {
-            teams.push({ name: 'BYE', id: 'BYE' });
+            teams.push('BYE');
         }
 
-        const n = teams.length;
-        const totalRounds = n - 1;
+        const numRounds = teams.length - 1;
+        const numMatchesPerRound = teams.length / 2;
 
-        for (let round = 0; round < totalRounds; round++) {
+        for (let round = 0; round < numRounds; round++) {
             const currentRoundMatches = [];
-            for (let i = 0; i < n / 2; i++) {
+            for (let i = 0; i < numMatchesPerRound; i++) {
                 const team1 = teams[i];
-                const team2 = teams[n - 1 - i];
+                const team2 = teams[teams.length - 1 - i];
 
-                if (team1.id !== 'BYE' && team2.id !== 'BYE') {
-                    currentRoundMatches.push({ team1: team1.name, team2: team2.name, score1: 0, score2: 0 }); // Añadir scores
-                } else if (team1.id === 'BYE') {
-                    currentRoundMatches.push({ team1: team2.name, team2: 'descansa' });
-                } else if (team2.id === 'BYE') {
-                    currentRoundMatches.push({ team1: team1.name, team2: 'descansa' });
+                if (team1 !== 'BYE' && team2 !== 'BYE') {
+                    currentRoundMatches.push(`${team1} vs ${team2}`);
                 }
             }
             schedule.push(currentRoundMatches);
 
-            const pivot = teams[0];
-            const rotatedPart = teams.slice(1, n - 1);
-            const lastTeam = teams[n - 1];
-
-            teams.splice(0, n);
-            teams.push(pivot);
-            teams.push(lastTeam);
-            teams.push(...rotatedPart);
+            const lastTeam = teams.pop();
+            teams.splice(1, 0, lastTeam);
         }
         return schedule;
     }
 
-    // --- Función para Generar Clasificación Inicial ---
-    function generateInitialClassification(teamsArray) {
-        return teamsArray.map(teamName => ({
-            name: teamName,
-            Puntos: 0,
-            PJ: 0,
-            PG: 0,
-            PP: 0,
-            PF: 0, // Puntos a Favor
-            PC: 0, // Puntos en Contra
-            Dif: 0  // Diferencia de Puntos
-        }));
-    }
+    // --- Función para Generar Datos de Clasificación Aleatorios (para ejemplo) ---
+    function generateRandomClassification(numTeams) {
+        const teams = Array.from({ length: numTeams }, (_, i) => `Equipo ${i + 1}`);
+        const classification = teams.map(team => {
+            const PJ = Math.floor(Math.random() * 10) + 5;
+            const PG = Math.floor(Math.random() * PJ);
+            const PP = PJ - PG;
+            const SF = Math.floor(Math.random() * 30) + 10;
+            const SC = Math.floor(Math.random() * 30) + 10;
+            const Ptos = PG * 3 + Math.floor(Math.random() * 5);
 
+            return { name: team, PJ, PG, PP, SF, SC, Ptos };
+        });
 
-    // Elementos del DOM
-    const selectCategoryDropdown = document.getElementById('selectCategory');
-    const resultsDisplayArea = document.getElementById('results-display-area');
-    const groupDetailArea = document.getElementById('group-detail-area'); // Nuevo contenedor principal
-    const backToGroupsBtn = document.getElementById('backToGroups');
-    const currentGroupTitle = document.getElementById('current-group-title');
-    const classificationArea = document.getElementById('classification-area');
-    const scheduleListContainer = document.getElementById('schedule-list-container');
+        classification.sort((a, b) => {
+            if (b.Ptos !== a.Ptos) return b.Ptos - a.Ptos;
+            if (b.SF !== a.SF) return b.SF - a.SF;
+            return a.SC - b.SC;
+        });
 
-    let currentCategoryKey = ''; // Para guardar la categoría seleccionada
-
-    // --- Función para Mostrar Grupos de una Categoría ---
-    function showCategoryGroups(categoryKey) {
-        currentCategoryKey = categoryKey; // Guardar la categoría actual
-
-        resultsDisplayArea.innerHTML = '';
-        groupDetailArea.style.display = 'none'; // Ocultar el área de detalle de grupo
-
-        if (!categoryKey) {
-            resultsDisplayArea.innerHTML = '<p class="placeholder-text">Selecciona una categoría en el menú superior para ver sus detalles.</p>';
-            resultsDisplayArea.style.display = 'flex';
-            return;
-        }
-
-        resultsDisplayArea.style.display = 'block';
-
-        const categoryData = tournamentCategories[categoryKey];
-        if (!categoryData) {
-            resultsDisplayArea.innerHTML = '<p class="placeholder-text">Categoría no encontrada.</p>';
-            resultsDisplayArea.style.display = 'flex';
-            return;
-        }
-
-        const categoryTitle = document.createElement('h4');
-        categoryTitle.textContent = categoryData.name;
-        resultsDisplayArea.appendChild(categoryTitle);
-
-        const groupDescription = document.createElement('p');
-        groupDescription.textContent = `Selecciona un grupo para ver su clasificación y jornadas (${categoryData.numGroups} grupos de ${categoryData.teamsPerGroup} equipos).`;
-        resultsDisplayArea.appendChild(groupDescription);
-
-        const groupContainerDiv = document.createElement('div');
-        groupContainerDiv.className = 'group-container';
-
-        for (let i = 1; i <= categoryData.numGroups; i++) {
-            const groupCard = document.createElement('div');
-            groupCard.className = 'group-card';
-            const groupName = String.fromCharCode(64 + i); // A, B, C...
-
-            // Generar equipos para este grupo específico
-            const teamsInGroup = Array.from({ length: categoryData.teamsPerGroup },
-                (_, teamIdx) => `Equipo ${groupName}${teamIdx + 1}`
-            );
-
-            groupCard.innerHTML = `<h5>Grupo ${groupName}</h5>`;
-            groupCard.dataset.category = categoryKey;
-            groupCard.dataset.groupIndex = i;
-            groupCard.dataset.teams = JSON.stringify(teamsInGroup); // Guardar los nombres de los equipos
-
-            groupCard.addEventListener('click', function() {
-                const selectedCat = this.dataset.category;
-                const selectedGroupIdx = parseInt(this.dataset.groupIndex);
-                const teamsData = JSON.parse(this.dataset.teams); // Parsear los nombres de los equipos
-
-                showGroupDetails(selectedCat, selectedGroupIdx, teamsData);
-            });
-
-            groupContainerDiv.appendChild(groupCard);
-        }
-        resultsDisplayArea.appendChild(groupContainerDiv);
-    }
-
-    // --- Función para Mostrar Detalles (Clasificación y Jornadas) de un Grupo ---
-    function showGroupDetails(categoryKey, groupIndex, teamsInGroup) {
-        resultsDisplayArea.style.display = 'none'; // Ocultar la lista de grupos
-        groupDetailArea.style.display = 'block'; // Mostrar el área de detalle de grupo
-
-        const categoryData = tournamentCategories[categoryKey];
-        const groupName = String.fromCharCode(64 + groupIndex);
-
-        currentGroupTitle.textContent = `${categoryData.name} - Grupo ${groupName}`;
-
-        // Limpiar áreas
-        classificationArea.innerHTML = '';
-        scheduleListContainer.innerHTML = '';
-
-        // 1. Mostrar Clasificación
-        renderClassificationTable(teamsInGroup, categoryKey);
-
-        // 2. Mostrar Jornadas
-        renderSchedule(teamsInGroup);
-
-        // Asegurarse de que el contenedor de jornadas tenga el estilo de cuadrícula
-        scheduleListContainer.classList.add('schedule-list-container');
+        return classification;
     }
 
 
     // --- Función para Renderizar la Tabla de Clasificación ---
-    function renderClassificationTable(teamsArray, categoryKey) {
-        const classificationData = generateInitialClassification(teamsArray); // Usa los nombres de equipos reales
-        const categoryData = tournamentCategories[categoryKey];
-
+    function renderClassificationTable(classificationData, categoryId) {
         const table = document.createElement('table');
         table.className = 'classification-table';
 
-        // Encabezado de la tabla
-        const thead = document.createElement('thead');
-        thead.innerHTML = `
-            <tr>
-                <th>Pos</th>
-                <th>Equipo</th>
-                <th>Puntos</th>
-                <th>PJ</th>
-                <th>PG</th>
-                <th>PP</th>
-                <th>PF</th>
-                <th>PC</th>
-                <th>Dif</th>
-            </tr>
-        `;
-        table.appendChild(thead);
+        const thead = table.createTHead();
+        const headerRow = thead.insertRow();
+        const headers = ['Pos.', 'Equipo', 'PJ', 'PG', 'PP', 'SF', 'SC', 'Ptos'];
+        headers.forEach(text => {
+            const th = document.createElement('th');
+            th.textContent = text;
+            headerRow.appendChild(th);
+        });
 
-        // Cuerpo de la tabla
-        const tbody = document.createElement('tbody');
+        const tbody = table.createTBody();
         classificationData.forEach((team, index) => {
-            const row = document.createElement('tr');
+            const row = tbody.insertRow();
+            const position = index + 1;
 
             let posClass = '';
-            if (categoryData.rankingColors) {
-                if (index === 0 || index === 1) {
+            if (categoryId === 'senior') {
+                if (position === 1 || position === 2) {
                     posClass = 'pos-gold';
-                } else if (index === 2 || index === 3) {
+                } else if (position === 3 || position === 4) {
                     posClass = 'pos-silver';
-                } else if (index === 4 || index === 5) {
+                } else if (position === 5 || position === 6) {
                     posClass = 'pos-bronze';
+                }
+            } else { // Juvenil, Cadete, Infantil
+                if (position <= 2) {
+                    posClass = 'pos-gold';
+                } else {
+                    posClass = 'pos-red';
                 }
             }
 
-            row.innerHTML = `
-                <td class="${posClass}">${index + 1}</td>
-                <td class="team-name">${team.name}</td>
-                <td>${team.Puntos}</td>
-                <td>${team.PJ}</td>
-                <td>${team.PG}</td>
-                <td>${team.PP}</td>
-                <td>${team.PF}</td>
-                <td>${team.PC}</td>
-                <td>${team.Dif}</td>
-            `;
-            tbody.appendChild(row);
-        });
-        table.appendChild(tbody);
+            const posCell = row.insertCell();
+            posCell.textContent = position;
+            if (posClass) {
+                posCell.classList.add(posClass);
+            }
 
-        classificationArea.innerHTML = '';
-        const classificationTitle = document.createElement('h4');
-        classificationTitle.textContent = 'Clasificación';
-        classificationArea.appendChild(classificationTitle);
-        classificationArea.appendChild(table);
+            const teamNameCell = row.insertCell();
+            teamNameCell.textContent = team.name;
+            teamNameCell.classList.add('team-name');
+
+            row.insertCell().textContent = team.PJ;
+            row.insertCell().textContent = team.PG;
+            row.insertCell().textContent = team.PP;
+            row.insertCell().textContent = team.SF;
+            row.insertCell().textContent = team.SC;
+            row.insertCell().textContent = team.Ptos;
+        });
+
+        return table;
+    }
+
+    // --- Función para Renderizar los Grupos y su Contenido ---
+    function renderGroups(category, numGroups, teamsPerGroup) {
+        const groups = [];
+        for (let i = 1; i <= numGroups; i++) {
+            groups.push({
+                name: `Grupo ${String.fromCharCode(64 + i)}`,
+                classification: generateRandomClassification(teamsPerGroup),
+                schedule: generateRoundRobinSchedule(teamsPerGroup)
+            });
+        }
+        return groups;
     }
 
 
-    // --- Función para Renderizar las Jornadas ---
-    function renderSchedule(teamsArray) {
-        const schedule = generateRoundRobinSchedule(teamsArray.map(name => ({ name: name, id: name }))); // Necesita objetos para el algoritmo
-        scheduleListContainer.innerHTML = '';
+    // --- Elementos del DOM ---
+    const resultsDisplayArea = document.getElementById('results-display-area');
+    const groupDetailArea = document.getElementById('group-detail-area');
+    const backToGroupsBtn = document.getElementById('backToGroupsBtn');
+    const backButtonContainer = document.getElementById('back-button-container');
+    const classificationArea = document.getElementById('classification-area');
+    const scheduleListContainer = document.getElementById('schedule-list-container');
 
-        const scheduleTitle = document.createElement('h4');
-        scheduleTitle.textContent = 'Jornadas';
-        scheduleListContainer.appendChild(scheduleTitle);
 
-        schedule.forEach((roundMatches, roundIndex) => {
+    // Listener para el botón "Volver a Grupos"
+    if (backToGroupsBtn) {
+        backToGroupsBtn.addEventListener('click', () => {
+            const selectCategoryDropdown = document.getElementById('selectCategory');
+            const currentCategory = selectCategoryDropdown ? selectCategoryDropdown.value : '';
+            renderCategoryResults(currentCategory); // Vuelve a renderizar los grupos de la categoría
+        });
+    }
+
+
+    function renderCategoryResults(categoryId) {
+        // Ocultar el área de detalles del grupo y su botón de volver
+        groupDetailArea.style.display = 'none';
+        // No limpiamos groupDetailArea.innerHTML aquí, lo haremos en displayGroupDetails
+        if (backButtonContainer) {
+            backButtonContainer.style.display = 'none';
+        }
+
+        // Mostrar el área principal de resultados (grupos)
+        resultsDisplayArea.style.display = 'block';
+        resultsDisplayArea.innerHTML = ''; // Limpiar contenido anterior de grupos
+
+        const placeholderText = document.createElement('p');
+        placeholderText.className = 'placeholder-text';
+
+        if (!categoryId) {
+            placeholderText.textContent = 'Selecciona una categoría en el menú superior para ver sus detalles.';
+            resultsDisplayArea.appendChild(placeholderText);
+            return;
+        }
+
+        const categoryInfo = tournamentCategories[categoryId];
+        if (!categoryInfo) {
+            placeholderText.textContent = 'Categoría no encontrada.';
+            resultsDisplayArea.appendChild(placeholderText);
+            return;
+        }
+
+        resultsDisplayArea.appendChild(document.createElement('h4')).textContent = `Grupos de ${categoryInfo.name}`;
+        const groups = renderGroups(categoryId, categoryInfo.numGroups, categoryInfo.teamsPerGroup);
+
+        const groupContainerDiv = document.createElement('div');
+        groupContainerDiv.className = 'group-container';
+
+        groups.forEach(group => {
+            const groupCard = document.createElement('div');
+            groupCard.className = 'group-card';
+            groupCard.innerHTML = `<h5>${group.name}</h5>`;
+            groupCard.dataset.groupName = group.name;
+            groupCard.dataset.categoryId = categoryId;
+
+            groupCard.addEventListener('click', function() {
+                displayGroupDetails(group, categoryId);
+            });
+            groupContainerDiv.appendChild(groupCard);
+        });
+
+        resultsDisplayArea.appendChild(groupContainerDiv);
+    }
+
+
+    function displayGroupDetails(groupData, categoryId) {
+        // Oculta el área de grupos
+        resultsDisplayArea.style.display = 'none';
+
+        // Muestra el área de detalles del grupo y el botón de volver
+        groupDetailArea.style.display = 'block';
+        if (backButtonContainer) {
+            backButtonContainer.style.display = 'block';
+        }
+
+        // Limpia y actualiza los contenidos dentro de groupDetailArea
+        document.getElementById('current-group-title').textContent = `Detalles de ${groupData.name} - ${tournamentCategories[categoryId].name}`;
+
+        // Clasificación
+        classificationArea.innerHTML = ''; // Limpia el contenido anterior del área de clasificación
+        classificationArea.appendChild(renderClassificationTable(groupData.classification, categoryId));
+
+        // Calendario / Jornadas
+        scheduleListContainer.innerHTML = ''; // Limpia el contenido anterior del área de calendario
+        groupData.schedule.forEach((roundMatches, roundIndex) => {
             const roundCard = document.createElement('div');
             roundCard.className = 'schedule-round-card';
             roundCard.innerHTML = `<h6>Jornada ${roundIndex + 1}</h6>`;
-
             roundMatches.forEach(match => {
-                const matchItem = document.createElement('div');
-                matchItem.className = 'match-item';
-
-                if (match.team2 === 'descansa') {
-                    matchItem.innerHTML = `
-                        <span class="match-teams">${match.team1}</span>
-                        <span class="match-score">descansa</span>
-                    `;
-                } else {
-                    matchItem.innerHTML = `
-                        <span class="match-teams">${match.team1} vs ${match.team2}</span>
-                        <span class="match-score">${match.score1}-${match.score2}</span>
-                    `;
+                if (match) {
+                    const parts = match.split(' vs ');
+                    const team1 = parts[0];
+                    const team2 = parts[1];
+                    roundCard.innerHTML += `<div class="match-item"><span class="match-teams">${team1} vs ${team2}</span> <span class="match-score">0 - 0</span></div>`;
                 }
-                roundCard.appendChild(matchItem);
             });
             scheduleListContainer.appendChild(roundCard);
         });
     }
 
-
-    // --- Event Listeners ---
+    // --- Lógica del Selector de Categorías ---
+    const selectCategoryDropdown = document.getElementById('selectCategory');
     if (selectCategoryDropdown) {
         selectCategoryDropdown.addEventListener('change', function() {
             const selectedCategory = this.value;
-            showCategoryGroups(selectedCategory);
+            renderCategoryResults(selectedCategory);
         });
-        showCategoryGroups(selectCategoryDropdown.value); // Mostrar el placeholder al inicio
-    }
 
-    if (backToGroupsBtn) {
-        backToGroupsBtn.addEventListener('click', function() {
-            showCategoryGroups(currentCategoryKey); // Volver a mostrar los grupos de la categoría actual
-        });
+        // Inicia mostrando el placeholder al cargar la página
+        renderCategoryResults('');
     }
 });
