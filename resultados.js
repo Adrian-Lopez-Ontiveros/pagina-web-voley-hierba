@@ -57,23 +57,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Función para Generar Datos de Clasificación Aleatorios (para ejemplo) ---
+    // MODIFICADA para que los valores iniciales sean 0
     function generateRandomClassification(numTeams) {
         const teams = Array.from({ length: numTeams }, (_, i) => `Equipo ${i + 1}`);
         const classification = teams.map(team => {
-            const PJ = Math.floor(Math.random() * 10) + 5;
-            const PG = Math.floor(Math.random() * PJ);
-            const PP = PJ - PG;
-            const SF = Math.floor(Math.random() * 30) + 10;
-            const SC = Math.floor(Math.random() * 30) + 10;
-            const Ptos = PG * 3 + Math.floor(Math.random() * 5);
+            // Todos los valores iniciales a 0
+            const PJ = 0;
+            const PG = 0;
+            const PP = 0;
+            const SF = 0;
+            const SC = 0;
+            const Ptos = 0;
 
             return { name: team, PJ, PG, PP, SF, SC, Ptos };
         });
 
+        // La ordenación seguirá funcionando una vez que se introduzcan datos reales
+        // Por ahora, todos tendrán 0 puntos, así que el orden será por nombre de equipo si quieres
+        // o se mantendrá el orden de creación. Si quieres un orden específico para 0 puntos, dilo.
         classification.sort((a, b) => {
-            if (b.Ptos !== a.Ptos) return b.Ptos - a.Ptos;
-            if (b.SF !== a.SF) return b.SF - a.SF;
-            return a.SC - b.SC;
+            // Si todos los puntos son 0, se ordenarán alfabéticamente por nombre de equipo
+            return a.name.localeCompare(b.name);
         });
 
         return classification;
@@ -143,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
         for (let i = 1; i <= numGroups; i++) {
             groups.push({
                 name: `Grupo ${String.fromCharCode(64 + i)}`,
-                classification: generateRandomClassification(teamsPerGroup),
+                classification: generateRandomClassification(teamsPerGroup), // Aquí se usan los valores iniciales a 0
                 schedule: generateRoundRobinSchedule(teamsPerGroup)
             });
         }
@@ -165,22 +169,19 @@ document.addEventListener('DOMContentLoaded', function() {
         backToGroupsBtn.addEventListener('click', () => {
             const selectCategoryDropdown = document.getElementById('selectCategory');
             const currentCategory = selectCategoryDropdown ? selectCategoryDropdown.value : '';
-            renderCategoryResults(currentCategory); // Vuelve a renderizar los grupos de la categoría
+            renderCategoryResults(currentCategory);
         });
     }
 
 
     function renderCategoryResults(categoryId) {
-        // Ocultar el área de detalles del grupo y su botón de volver
         groupDetailArea.style.display = 'none';
-        // No limpiamos groupDetailArea.innerHTML aquí, lo haremos en displayGroupDetails
         if (backButtonContainer) {
             backButtonContainer.style.display = 'none';
         }
 
-        // Mostrar el área principal de resultados (grupos)
         resultsDisplayArea.style.display = 'block';
-        resultsDisplayArea.innerHTML = ''; // Limpiar contenido anterior de grupos
+        resultsDisplayArea.innerHTML = '';
 
         const placeholderText = document.createElement('p');
         placeholderText.className = 'placeholder-text';
@@ -222,24 +223,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function displayGroupDetails(groupData, categoryId) {
-        // Oculta el área de grupos
         resultsDisplayArea.style.display = 'none';
 
-        // Muestra el área de detalles del grupo y el botón de volver
         groupDetailArea.style.display = 'block';
         if (backButtonContainer) {
             backButtonContainer.style.display = 'block';
         }
 
-        // Limpia y actualiza los contenidos dentro de groupDetailArea
         document.getElementById('current-group-title').textContent = `Detalles de ${groupData.name} - ${tournamentCategories[categoryId].name}`;
 
         // Clasificación
-        classificationArea.innerHTML = ''; // Limpia el contenido anterior del área de clasificación
+        classificationArea.innerHTML = '';
         classificationArea.appendChild(renderClassificationTable(groupData.classification, categoryId));
 
         // Calendario / Jornadas
-        scheduleListContainer.innerHTML = ''; // Limpia el contenido anterior del área de calendario
+        scheduleListContainer.innerHTML = '';
         groupData.schedule.forEach((roundMatches, roundIndex) => {
             const roundCard = document.createElement('div');
             roundCard.className = 'schedule-round-card';
@@ -264,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
             renderCategoryResults(selectedCategory);
         });
 
-        // Inicia mostrando el placeholder al cargar la página
         renderCategoryResults('');
     }
 });
