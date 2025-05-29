@@ -1,0 +1,712 @@
+/* Reseteo básico y Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colores del Club (ejemplos, ajusta a los reales del CV Fuenlabrada) */
+    --primary-color: #007bff; /* Azul vibrante */
+    --secondary-color: #28a745; /* Verde/Amarillo que combine */
+    --dark-color: #343a40; /* Gris oscuro */
+    --light-color: #f8f9fa; /* Blanco/gris claro */
+    --text-color: #333;
+    --white: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* Colores de clasificación */
+    --gold-color: #FFD700;
+    --silver-color: #C0C0C0;
+    --bronze-color: #CD7F32;
+    --medal-text-color: #333; /* Color de texto para las medallas */
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--light-color);
+    scroll-behavior: smooth;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Tipografía general */
+h1, h2, h3, h4 {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dark-color);
+    margin-bottom: 15px;
+}
+
+h2 { font-size: 2.5em; }
+h3 { font-size: 2em; }
+h4 { font-size: 1.5em; }
+
+p { margin-bottom: 10px; }
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white); /* El color base es blanco */
+    padding: 12px 25px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease; /* Añadimos 'color 0.3s ease' */
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--dark-color);
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: var(--white); /* Aseguramos que el color inicial sea blanco */
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color); /* El fondo cambia a primary-color */
+    color: var(--dark-color); /* ¡Aquí las letras se vuelven negras! */
+}
+
+/* Header */
+header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 15px 0;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en pantallas pequeñas */
+}
+
+header .logo {
+    height: 60px;
+    width: auto;
+    margin-right: 15px;
+}
+
+header h1 {
+    color: var(--white);
+    font-size: 1.8em;
+    margin: 0;
+    flex-grow: 1; /* Permite que el título ocupe espacio */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+header nav ul li {
+    margin-left: 25px;
+}
+
+header nav ul li a {
+    color: var(--white);
+    font-weight: 600;
+    padding: 5px 0;
+    position: relative;
+}
+
+header nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-color);
+    left: 0;
+    bottom: -5px;
+    transition: width 0.3s ease;
+}
+
+header nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    background-color: #f4f4f4;
+    background-image: url('voley hierba fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--white);
+    text-align: center;
+    padding: 100px 20px;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.hero-section h2 {
+    color: var(--white);
+    font-size: 3.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+.hero-section .tagline {
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    color: var(--light-color);
+}
+
+/* Contenedor para el contador y el botón, para centrarlos juntos */
+.countdown-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    gap: 20px; /* Espacio entre el contador y el botón */
+    margin-bottom: 30px; /* Espacio debajo del grupo */
+}
+
+/* Countdown Timer */
+.countdown-timer {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+.countdown-timer h3 {
+    color: var(--secondary-color);
+    margin-top: 0;
+}
+
+.timer-display {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: var(--white);
+    text-shadow: 1px 1px 2px var(--dark-color);
+}
+
+
+/* General Section Styling */
+section {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.info-section {
+    background-color: var(--white);
+    box-shadow: 0 0 10px var(--shadow-color);
+    margin-bottom: 30px;
+}
+
+/* Estilo para centrar la sección de información del torneo */
+.centered-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.alt-section {
+    background-color: var(--light-color);
+}
+
+.info-section h3, .alt-section h3, .form-section h3 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+/* Details Grid (Fecha, Lugar, Precio) */
+.details-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.detail-item {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    width: 300px;
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.detail-item:hover {
+    transform: translateY(-5px);
+}
+
+.detail-item h4 {
+    color: black; /* Color más visible para los títulos */
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.detail-item .icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.detail-item p {
+    margin-bottom: 5px;
+    font-size: 0.95em;
+}
+
+/* Categorias y Normativa */
+#categorias ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 20px;
+    display: inline-block; /* Para centrar la lista */
+    text-align: left;
+}
+
+#categorias ul li {
+    background-color: var(--white);
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-left: 5px solid var(--secondary-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Formulario de Inscripción */
+.form-section {
+    background-color: var(--white);
+    padding: 60px 0;
+    box-shadow: 0 0 10px var(--shadow-color);
+}
+
+.form-section form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 30px;
+    background-color: var(--light-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-group textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.form-section .btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+}
+
+.form-note {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 15px;
+    text-align: center;
+}
+
+/* Contacto */
+#contacto .icon {
+    font-size: 1.2em;
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+#contacto p a {
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    background-color: var(--dark-color);
+    color: var(--white);
+    text-align: center;
+    padding: 30px 0;
+    font-size: 0.9em;
+}
+
+/* Resultados Section Styles */
+.category-results {
+    background-color: var(--light-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 30px 0;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    text-align: left;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.category-results h4 {
+    color: var(--secondary-color);
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.category-results p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.group-card {
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    padding: 15px;
+    width: calc(33% - 20px);
+    min-width: 280px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.group-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.group-card h5 {
+    color: var(--primary-color);
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+/* Contenedor de las jornadas cuando se muestra un grupo */
+.schedule-list-container {
+    display: grid; /* Usar CSS Grid para un mejor control del layout */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas responsivas */
+    gap: 20px;
+    margin-top: 20px;
+    width: 100%;
+    justify-items: center; /* Centra los elementos de la cuadrícula */
+}
+
+.schedule-round-card { /* Nueva clase para cada jornada */
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    padding: 15px;
+    width: 100%; /* Ocupa el ancho completo de su columna en el grid */
+    text-align: left;
+}
+
+.schedule-round-card h6 { /* Título de la jornada */
+    font-size: 1.1em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.match-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--light-color);
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--secondary-color);
+    border-radius: 4px;
+    font-size: 0.95em;
+}
+
+.match-teams {
+    font-weight: bold;
+    color: var(--dark-color);
+}
+
+.match-score {
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 40px; /* Asegura espacio para el 0-0 */
+    text-align: right;
+}
+
+
+/* Estilos para el selector de categoría */
+.category-selector {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.category-selector label {
+    margin-right: 10px;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.category-selector select {
+    padding: 8px 12px;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    background-color: var(--white);
+    font-size: 1em;
+    font-family: 'Open Sans', sans-serif;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.category-selector select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
+}
+
+.placeholder-text {
+    font-style: italic;
+    color: #666;
+    margin: auto; /* Centra el texto de placeholder */
+}
+
+/* Contenedor de clasificación y jornadas (initially hidden) */
+#group-detail-area {
+    display: none; /* Oculto por defecto */
+    margin-top: 30px;
+    text-align: center;
+}
+
+#group-detail-area h5 {
+    color: var(--primary-color);
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.back-to-groups-btn {
+    background-color: #6c757d; /* Gris para volver */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.back-to-groups-btn:hover {
+    background-color: #5a6268;
+}
+
+/* Estilos de la tabla de clasificación */
+.classification-table-container {
+    margin: 30px auto;
+    max-width: 800px;
+    overflow-x: auto; /* Permite scroll horizontal en móviles */
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border-radius: 8px;
+    background-color: var(--white);
+    padding: 15px;
+}
+
+.classification-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.classification-table th,
+.classification-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.classification-table th {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.classification-table tr:nth-child(even) {
+    background-color: var(--light-color);
+}
+
+.classification-table td.team-name {
+    text-align: left;
+    font-weight: bold;
+}
+
+/* Estilos para el fondo de la posición en la tabla (Senior) */
+.pos-gold {
+    background-color: var(--gold-color);
+    color: var(--medal-text-color);
+    font-weight: bold;
+}
+.pos-silver {
+    background-color: var(--silver-color);
+    color: var(--medal-text-color);
+    font-weight: bold;
+}
+.pos-bronze {
+    background-color: var(--bronze-color);
+    color: var(--medal-text-color);
+    font-weight: bold;
+}
+
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .group-card {
+        width: calc(50% - 20px); /* 2 columnas en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header h1 {
+        margin-top: 10px;
+    }
+
+    header nav ul {
+        margin-top: 15px;
+        justify-content: center;
+    }
+
+    header nav ul li {
+        margin: 0 10px;
+    }
+
+    .hero-section h2 {
+        font-size: 2.5em;
+    }
+
+    .hero-section .tagline {
+        font-size: 1.2em;
+    }
+
+    .timer-display {
+        font-size: 2em;
+    }
+
+    .details-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .detail-item {
+        width: 90%;
+    }
+
+    .group-card {
+        width: 100%; /* 1 columna en móviles */
+    }
+
+    .classification-table th,
+    .classification-table td {
+        padding: 8px 10px; /* Reduce padding para pantallas pequeñas */
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section h2 {
+        font-size: 2em;
+    }
+    .timer-display {
+        font-size: 1.5em;
+    }
+    header nav ul li {
+        margin: 0 5px;
+    }
+    header nav ul li a {
+        font-size: 0.9em;
+    }
+
+    .classification-table-container {
+        padding: 8px; /* Menos padding en móviles */
+    }
+}
