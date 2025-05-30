@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="container header-content">
+        <div class="contenedor contenido-cabecera">
             <a href="index.html#inicio"> <img src="logo-fuenlabrada.jpg" alt="Logo CV Fuenlabrada" class="logo">
             </a>
             <h1>Club Voleibol Fuenlabrada</h1>
@@ -27,14 +27,14 @@
     </header>
 
     <main>
-        <section id="resultados" class="info-section">
-            <div class="container">
+        <section id="resultados" class="seccion-info">
+            <div class="contenedor">
                 <h3>Resultados y Calendario por Categoría</h3>
                 <p>Selecciona una categoría para ver sus grupos y enfrentamientos.</p>
 
-                <div class="category-selector">
-                    <label for="selectCategory">Mostrar resultados para:</label>
-                    <select id="selectCategory">
+                <div class="selector-categoria">
+                    <label for="seleccionarCategoria">Mostrar resultados para:</label>
+                    <select id="seleccionarCategoria">
                         <option value="">-- Selecciona una categoría --</option>
                         <option value="senior">Senior 3x3 Mixto</option>
                         <option value="juvenil">Juvenil 3x3 Mixto</option>
@@ -43,21 +43,21 @@
                     </select>
                 </div>
 
-                <div id="results-display-area" class="category-results">
-                    <p class="placeholder-text">Selecciona una categoría en el menú superior para ver sus detalles.</p>
+                <div id="areaMostrarResultados" class="resultados-categoria">
+                    <p class="texto-placeholder">Selecciona una categoría en el menú superior para ver sus detalles.</p>
                 </div>
 
-                <div id="back-button-container" style="text-align: center; margin-bottom: 20px; display: none;">
-                    <button id="backToGroupsBtn" class="btn back-to-groups-btn">← Volver a Grupos</button>
+                <div id="contenedorBotonVolver" style="text-align: center; margin-bottom: 20px; display: none;">
+                    <button id="volverAGruposBtn" class="btn btn-volver-grupos">← Volver a Grupos</button>
                 </div>
 
-                <div id="group-detail-area" class="category-results" style="display: none;">
-                    <h5 id="current-group-title"></h5>
+                <div id="areaDetalleGrupo" class="resultados-categoria" style="display: none;">
+                    <h5 id="tituloGrupoActual"></h5>
 
-                    <div id="classification-area" class="classification-table-container">
+                    <div id="areaClasificacion" class="contenedor-tabla-clasificacion">
                         </div>
 
-                    <div id="schedule-list-container" class="schedule-list-container">
+                    <div id="contenedorListaCalendario" class="contenedor-lista-calendario">
                         </div>
                 </div>
 
@@ -66,7 +66,7 @@
     </main>
 
     <footer>
-        <div class="container">
+        <div class="contenedor">
             <p>&copy; 2025 Club Voleibol Fuenlabrada. Todos los derechos reservados.</p>
         </div>
     </footer>

@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="container header-content">
+        <div class="contenedor contenido-cabecera">
             <a href="index.html#inicio"> <img src="logo-fuenlabrada.jpg" alt="Logo CV Fuenlabrada" class="logo">
             </a>
             <h1>Club Voleibol Fuenlabrada</h1>
@@ -27,45 +27,45 @@
     </header>
 
     <main>
-        <section id="inicio" class="hero-section">
-            <div class="container hero-content">
+        <section id="inicio" class="seccion-hero">
+            <div class="contenedor contenido-hero">
                 <h2>!Torneo de Vóley Hierba Fuenlabrada 2025!</h2>
-                <p class="tagline">Diversión, Sol y Voleibol en el corazón de Fuenlabrada.</p>
-                <div class="countdown-and-button"> <div class="countdown-timer">
+                <p class="lema">Diversión, Sol y Voleibol en el corazón de Fuenlabrada.</p>
+                <div class="cuenta-atras-y-boton"> <div class="contador-regresivo">
                         <h3>¡El Torneo Comienza en!</h3>
-                        <div id="countdown" class="timer-display"></div>
+                        <div id="cuentaAtras" class="mostrar-temporizador"></div>
                     </div>
-                    <a href="#inscripcion" class="btn btn-primary">¡Inscríbete Ahora!</a>
+                    <a href="#inscripcion" class="btn btn-primario">¡Inscríbete Ahora!</a>
                 </div>
             </div>
         </section>
 
-        <section id="torneo" class="info-section centered-info">
-            <div class="container">
+        <section id="torneo" class="seccion-info info-centrada">
+            <div class="contenedor">
                 <h3>Sobre el Torneo</h3>
-                <p>El Club Voleibol Fuenlabrada tiene el placer de anunciar su Torneo Anual de Vóley Hierba, una jornada llena de deporte, compañerismo y mucha arena (¡aunque sea hierba!). Perfecto para jugadores de todos los niveles, desde aficionados hasta los más experimentados.</p>
-                <div class="details-grid">
-                    <div class="detail-item">
-                        <h4><span class="icon">📅</span> Fecha</h4>
+                <p>El Club Voleibol Fuenlabrada tiene el placer de anunciar su Torneo Anual de Vóley Hierba, una jornada llena de deporte, compañerismo y mucha diversión. Perfecto para jugadores de todos los niveles, desde aficionados hasta los más experimentados.</p>
+                <div class="cuadricula-detalles">
+                    <div class="item-detalle">
+                        <h4><span class="icono">📅</span> Fecha</h4>
                         <p><strong>28 de Junio de 2025</strong></p>
                         <p>De 09:30h a 20:00h</p>
                     </div>
-                    <div class="detail-item">
-                        <h4><span class="icon">📍</span> Lugar</h4>
-                        <p><strong>Parque Polideportivo La Aldehuela</strong></p>
-                        <p>Av. del Polideportivo, s/n, 28940 Fuenlabrada, Madrid</p>
+                    <div class="item-detalle">
+                        <h4><span class="icono">📍</span> Lugar</h4>
+                        <p><strong>Polideportivo Fermín Cacho</strong></p>
+                        <p>Cam. Bajo de Getafe, 2, 28946 Fuenlabrada, Madrid</p>
                     </div>
-                    <div class="detail-item">
-                        <h4><span class="icon">💰</span> Precio por Equipo</h4>
+                    <div class="item-detalle">
+                        <h4><span class="icono">💰</span> Precio por Equipo</h4>
                         <p><strong>14€ por persona</strong></p>
-                        <p>Incluye agua, fruta y camiseta del torneo (hasta fin de existencias)</p>
+                        <p>Incluye agua, pizza, camiseta del torneo y entrada a la piscina municipal.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="categorias" class="alt-section">
-            <div class="container">
+        <section id="categorias" class="seccion-alterna">
+            <div class="contenedor">
                 <h3>Categorías y Normativa</h3>
                 <p>Para asegurar un juego justo y divertido para todos, hemos establecido las siguientes categorías:</p>
                 <ul>
@@ -78,18 +78,18 @@
             </div>
         </section>
 
-        <section id="inscripcion" class="form-section">
-            <div class="container">
+        <section id="inscripcion" class="seccion-formulario">
+            <div class="contenedor">
                 <h3>Formulario de Inscripción</h3>
                 <p>¡No te quedes sin tu plaza! Rellena el siguiente formulario para inscribir a tu equipo.</p>
-                <form id="registrationForm">
-                    <div class="form-group">
-                        <label for="teamName">Nombre del Equipo:</label>
-                        <input type="text" id="teamName" name="teamName" required>
+                <form id="formularioInscripcion">
+                    <div class="grupo-formulario">
+                        <label for="nombreEquipo">Nombre del Equipo:</label>
+                        <input type="text" id="nombreEquipo" name="nombreEquipo" required>
                     </div>
-                    <div class="form-group">
-                        <label for="category">Categoría:</label>
-                        <select id="category" name="category" required>
+                    <div class="grupo-formulario">
+                        <label for="categoria">Categoría:</label>
+                        <select id="categoria" name="categoria" required>
                             <option value="">Selecciona una categoría</option>
                             <option value="senior3x3">Senior 3x3 Mixto</option>
                             <option value="juvenil3x3">Juvenil 3x3 Mixto</option>
@@ -97,37 +97,37 @@
                             <option value="infantil4x4">Infantil 4x4 Mixto</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="contactEmail">Email de Contacto:</label>
-                        <input type="email" id="contactEmail" name="contactEmail" required>
+                    <div class="grupo-formulario">
+                        <label for="emailContacto">Email de Contacto:</label>
+                        <input type="email" id="emailContacto" name="emailContacto" required>
                     </div>
-                    <div class="form-group">
-                        <label for="contactPhone">Teléfono de Contacto:</label>
-                        <input type="tel" id="contactPhone" name="contactPhone">
+                    <div class="grupo-formulario">
+                        <label for="telefonoContacto">Teléfono de Contacto:</label>
+                        <input type="tel" id="telefonoContacto" name="telefonoContacto">
                     </div>
-                    <div class="form-group">
-                        <label for="players">Nombres de los Jugadores (separados por comas):</label>
-                        <textarea id="players" name="players" rows="3" required></textarea>
+                    <div class="grupo-formulario">
+                        <label for="jugadores">Nombres de los Jugadores (separados por comas):</label>
+                        <textarea id="jugadores" name="jugadores" rows="3" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Enviar Inscripción</button>
-                    <p class="form-note">Una vez enviada la inscripción, nos pondremos en contacto contigo para los detalles del pago y la confirmación.</p>
+                    <button type="submit" class="btn btn-primario">Enviar Inscripción</button>
+                    <p class="nota-formulario">Una vez enviada la inscripción, nos pondremos en contacto contigo para los detalles del pago y la confirmación.</p>
                 </form>
             </div>
         </section>
 
-        <section id="contacto" class="info-section">
-            <div class="container">
+        <section id="contacto" class="seccion-info">
+            <div class="contenedor">
                 <h3>Contacto</h3>
                 <p>Para cualquier duda o consulta sobre el torneo, no dudes en contactar con nosotros:</p>
-                <p><span class="icon">📧</span> Email: <a href="mailto:voleyhierba@gmail.com">voleyhierba@gmail.com</a></p>
-                <p><span class="icon">📸</span> Instagram: <a href="https://www.instagram.com/fuenlabrada.voleibol/" target="_blank">https://www.instagram.com/fuenlabrada.voleibol/</a></p>
-                <p><span class="icon">🌐</span> Web del Club: <a href="http://cvfuenlabrada.es/" target="_blank">http://cvfuenlabrada.es/</a></p>
+                <p><span class="icono">📧</span> Email: <a href="mailto:voleyhierba@gmail.com">voleyhierba@gmail.com</a></p>
+                <p><span class="icono">📸</span> Instagram: <a href="https://www.instagram.com/fuenlabrada.voleibol/" target="_blank">https://www.instagram.com/fuenlabrada.voleibol/</a></p>
+                <p><span class="icono">🌐</span> Web del Club: <a href="http://cvfuenlabrada.es/" target="_blank">http://cvfuenlabrada.es/</a></p>
             </div>
         </section>
     </main>
 
     <footer>
-        <div class="container">
+        <div class="contenedor">
             <p>&copy; 2025 Club Voleibol Fuenlabrada. Todos los derechos reservados.</p>
         </div>
     </footer>
